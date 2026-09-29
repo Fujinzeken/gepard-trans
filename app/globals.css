@@ -1,26 +1,92 @@
 @import "tailwindcss";
 
-:root {
-  --background: #ffffff;
-  --foreground: #171717;
+/* ─────────────────────────────────────────────────────────────────
+   Gepard "Velocity" design tokens — site-wide design system.
+   ───────────────────────────────────────────────────────────────── */
+
+@theme {
+  /* Graphite — asphalt & steel */
+  --color-graphite-950: #0a0c0f;
+  --color-graphite-900: #0f1216;
+  --color-graphite-850: #14181e;
+  --color-graphite-800: #1a1f27;
+  --color-graphite-700: #262d38;
+  --color-graphite-600: #39424f;
+  --color-graphite-500: #4a5462;
+
+  /* Fog — neutral text & surfaces */
+  --color-fog-50: #f7f8f9;
+  --color-fog-200: #dde1e6;
+  --color-fog-300: #c9ced6;
+  --color-fog-400: #a7aeb8;
+  --color-fog-500: #8b93a0;
+
+  /* Signal — high-vis amber (the cheetah) */
+  --color-signal-300: #ffcd4d;
+  --color-signal-500: #ffb000;
+  --color-signal-600: #e09600;
+
+  /* Verdict — on-time green (reserved for success states & stats) */
+  --color-verdict-500: #3ecf8e;
+
+  --font-display: var(--font-saira), "Arial Narrow", system-ui, sans-serif;
+  --font-body: var(--font-inter), system-ui, sans-serif;
+
+  --ease-out-quart: cubic-bezier(0.25, 1, 0.5, 1);
 }
 
-@theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
-}
-
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
+@keyframes fade-up {
+  from {
+    opacity: 0;
+    transform: translateY(14px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
   }
 }
 
-body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+.fade-up {
+  animation: fade-up 0.5s var(--ease-out-quart) both;
 }
+
+@media (prefers-reduced-motion: reduce) {
+  .fade-up {
+    animation: none;
+  }
+}
+
+/* ── Freight ticker: continuous marquee for testimonial tickets ── */
+@keyframes ticker-scroll {
+  from {
+    transform: translateX(0);
+  }
+  to {
+    /* -50%: track holds two copies of the same run for a seamless loop */
+    transform: translateX(-50%);
+  }
+}
+
+.ticker-track {
+  animation: ticker-scroll var(--ticker-duration, 60s) linear infinite;
+}
+
+.ticker-track--reverse {
+  animation-direction: reverse;
+}
+
+.ticker-viewport:hover .ticker-track {
+  animation-play-state: paused;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .ticker-track {
+    animation: none;
+  }
+  /* Without motion, let users scroll the row manually instead */
+  .ticker-viewport {
+    overflow-x: auto;
+    scrollbar-width: thin;
+  }
+}
+
