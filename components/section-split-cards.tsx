@@ -59,7 +59,7 @@ export default function SectionSplitCards() {
               <p className="max-w-md text-sm leading-relaxed text-fog-200 md:text-base">
                 {card.body}
               </p>
-              <span className="mt-6 inline-flex items-center gap-2 rounded-full bg-signal-500 px-6 py-3 text-xs font-bold uppercase tracking-wider text-graphite-950 transition-colors duration-150 group-hover:bg-signal-300">
+              <span className="mt-6 inline-flex items-center gap-2 rounded-full bg-signal-500 px-6 py-3 text-xs font-bold uppercase tracking-wider text-graphite-950 transition-colors duration-150 group-hover:bg-signal-600">
                 {card.cta}
                 <svg
                   width="14"

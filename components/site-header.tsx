@@ -38,7 +38,7 @@ export default function SiteHeader() {
         </a>
         <Link
           href="/#contact"
-          className="rounded-full bg-signal-500 px-4 py-2 text-xs font-bold uppercase tracking-wider text-graphite-950 transition-colors duration-150 hover:bg-signal-300"
+          className="rounded-full bg-signal-500 px-4 py-2 text-xs font-bold uppercase tracking-wider text-graphite-950 transition-colors duration-150 hover:bg-signal-600"
         >
           Get a quote
         </Link>

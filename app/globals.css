@@ -15,16 +15,17 @@
   --color-graphite-500: #4a5462;
 
   /* Fog — neutral text & surfaces */
-  --color-fog-50: #f7f8f9;
+  --color-fog-50: #f2f4f8;
   --color-fog-200: #dde1e6;
   --color-fog-300: #c9ced6;
   --color-fog-400: #a7aeb8;
   --color-fog-500: #8b93a0;
 
-  /* Signal — high-vis amber (the cheetah) */
-  --color-signal-300: #ffcd4d;
-  --color-signal-500: #ffb000;
-  --color-signal-600: #e09600;
+  /* Signal — Gepard red (brand accent, matched to gepardtrans.net:
+     #eb4c4b global accent, #cb0201 button hover, #ff4d54 gradient stop) */
+  --color-signal-300: #ff4d54;
+  --color-signal-500: #eb4c4b;
+  --color-signal-600: #cb0201;
 
   /* Verdict — on-time green (reserved for success states & stats) */
   --color-verdict-500: #3ecf8e;

@@ -89,7 +89,7 @@ export default function HeroShowroom() {
       </div>
 
       {/* header copy */}
-      <div className="pointer-events-none absolute left-6 top-10 max-w-md md:left-16 lg:left-24">
+      <div className="pointer-events-none absolute left-6 top-16 max-w-md md:left-16 md:top-24 lg:left-24 lg:top-28">
         <p className="fade-up mb-3 text-xs font-semibold uppercase tracking-[0.3em] text-signal-600">
           Our fleet · drag to inspect
         </p>
@@ -99,7 +99,7 @@ export default function HeroShowroom() {
         >
           The right equipment for every load.
         </h1>
-        <div className="fade-up mt-5 flex flex-wrap gap-3" style={{ animationDelay: "160ms" }}>
+        <div className="fade-up pointer-events-auto mt-5 flex flex-wrap gap-3" style={{ animationDelay: "160ms" }}>
           <a
             href="#contact"
             className="rounded-full bg-graphite-900 px-6 py-3 text-xs font-bold uppercase tracking-wider text-fog-50 transition-colors duration-150 hover:bg-graphite-700"
@@ -107,7 +107,7 @@ export default function HeroShowroom() {
             Ship with us
           </a>
           <a
-            href="#drive"
+            href="#contact"
             className="rounded-full border border-graphite-900/25 px-6 py-3 text-xs font-bold uppercase tracking-wider text-graphite-900 transition-colors duration-150 hover:border-graphite-900"
           >
             Drive with us

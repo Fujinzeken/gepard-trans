@@ -5,7 +5,8 @@ import { FormEvent, useState } from "react";
 /**
  * Contact section — "Still have a question?" with role tabs (Driver / Partner /
  * Customer), minimal fields, and the legal SMS-consent checkbox. Posts to
- * /api/contact; no backend integration yet (route handler logs + acks).
+ * /api/contact, which validates and forwards to the client's Google Sheet
+ * (one tab per role) via the Apps Script webhook.
  */
 
 type Role = "driver" | "partner" | "customer";
@@ -197,7 +198,7 @@ export default function SectionContact() {
               <button
                 type="submit"
                 disabled={status === "sending"}
-                className="mt-6 w-full rounded-full bg-signal-500 px-6 py-3.5 text-xs font-bold uppercase tracking-wider text-graphite-950 transition-colors duration-150 hover:bg-signal-300 disabled:cursor-not-allowed disabled:opacity-60 sm:w-auto"
+                className="mt-6 w-full rounded-full bg-signal-500 px-6 py-3.5 text-xs font-bold uppercase tracking-wider text-graphite-950 transition-colors duration-150 hover:bg-signal-600 disabled:cursor-not-allowed disabled:opacity-60 sm:w-auto"
               >
                 {status === "sending" ? "Sending…" : "Send now"}
               </button>

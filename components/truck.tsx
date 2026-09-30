@@ -153,7 +153,7 @@ function BrandStripe({ x, y, z }: { x: number; y: number; z: number }) {
   return (
     <mesh position={[x, y, z]}>
       <boxGeometry args={[8.4, 0.12, 0.02]} />
-      <meshStandardMaterial color="#ffb000" emissive="#ffb000" emissiveIntensity={0.6} roughness={0.4} />
+      <meshStandardMaterial color="#eb090b" emissive="#cb0201" emissiveIntensity={0.5} roughness={0.4} />
     </mesh>
   );
 }
@@ -247,7 +247,7 @@ function Flatbed() {
       ).map(([x, y, h], i) => (
         <mesh key={i} position={[x, y, 0]}>
           <boxGeometry args={[0.06, h, 2.16]} />
-          <meshStandardMaterial color="#ffb000" emissive="#ffb000" emissiveIntensity={0.4} roughness={0.5} />
+          <meshStandardMaterial color="#eb090b" emissive="#cb0201" emissiveIntensity={0.4} roughness={0.5} />
         </mesh>
       ))}
       {/* landing gear (reuse) */}
@@ -285,7 +285,7 @@ function Trailer({ type }: { type: TrailerType }) {
 }
 
 export function Truck({
-  paint = "#232b38",
+  paint = "#eb090b",
   trailer = "dry-van",
   rolling = false,
   speed = 18,
