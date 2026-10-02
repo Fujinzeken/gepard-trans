@@ -107,7 +107,7 @@ export default function HeroShowroom() {
             Ship with us
           </a>
           <a
-            href="#contact"
+            href="/drive-for-us"
             className="rounded-full border border-graphite-900/25 px-6 py-3 text-xs font-bold uppercase tracking-wider text-graphite-900 transition-colors duration-150 hover:border-graphite-900"
           >
             Drive with us

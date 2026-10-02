@@ -1,5 +1,7 @@
 import { NextResponse } from "next/server";
 
+import { notifyTelegram } from "./telegram";
+
 /**
  * Contact form intake.
  * 1. Validate + log.
@@ -10,10 +12,13 @@ import { NextResponse } from "next/server";
  *    which serves the script's JSON response via GET — Google executes the
  *    original POST (payload included) when the redirect target is fetched,
  *    so we follow the redirect manually with GET.
+ * 3. Push a Telegram notification to the dispatch chat (see ./telegram.ts,
+ *    TELEGRAM_BOT_TOKEN + TELEGRAM_CHAT_ID). Both channels run in parallel.
  *
- * If GOOGLE_SCRIPT_URL is unset or the endpoint is unreachable, we still
- * ack ok:true so the visitor never loses their submission — the failure is
- * logged server-side.
+ * Both deliveries are best-effort: if either is unconfigured or unreachable we
+ * still ack ok:true so the visitor never loses their submission — the failure
+ * is reported in the response body (forwarded / notified) and logged
+ * server-side.
  */
 
 type ContactPayload = {
@@ -23,9 +28,29 @@ type ContactPayload = {
   phone?: unknown;
   message?: unknown;
   smsConsent?: unknown;
+  /* Driver applications only (see components/driver-fields.tsx) */
+  workEligible?: unknown;
+  experience?: unknown;
+  licenseType?: unknown;
+  endorsements?: unknown;
 };
 
 const ROLES = new Set(["driver", "partner", "customer"]);
+
+/* Driver answers are allow-listed before they reach the sheet, so a
+   hand-rolled POST can't write arbitrary values into the client's rows. */
+const WORK_ELIGIBLE = new Set(["Yes", "No"]);
+const EXPERIENCE = new Set(["Yes", "Partner", "No"]);
+const LICENSE_TYPES = new Set([
+  "Class A CDL",
+  "Class B CDL",
+  "No license, but would like to obtain one",
+]);
+const ENDORSEMENTS = new Set(["Doubles", "Triples", "HazMat", "None"]);
+
+function pick(allowed: Set<string>, value: unknown): string {
+  return typeof value === "string" && allowed.has(value) ? value : "";
+}
 
 const GOOGLE_SCRIPT_URL = process.env.GOOGLE_SCRIPT_URL ?? "";
 
@@ -83,7 +108,18 @@ export async function POST(request: Request) {
     return NextResponse.json({ error: "Invalid JSON body" }, { status: 400 });
   }
 
-  const { role, firstName, lastName, phone, message, smsConsent } = body;
+  const {
+    role,
+    firstName,
+    lastName,
+    phone,
+    message,
+    smsConsent,
+    workEligible,
+    experience,
+    licenseType,
+    endorsements,
+  } = body;
 
   if (
     typeof role !== "string" ||
@@ -98,7 +134,7 @@ export async function POST(request: Request) {
     return NextResponse.json({ error: "Missing or invalid fields" }, { status: 400 });
   }
 
-  const record = {
+  const record: Record<string, unknown> = {
     role,
     firstName: firstName.trim(),
     lastName: lastName.trim(),
@@ -108,9 +144,25 @@ export async function POST(request: Request) {
     receivedAt: new Date().toISOString(),
   };
 
+  /* Driver applications carry the extra "General information" answers; the
+     sheet's Drivers tab has a column for each (see apps-script/Code.gs). */
+  if (role === "driver") {
+    record.workEligible = pick(WORK_ELIGIBLE, workEligible);
+    record.experience = pick(EXPERIENCE, experience);
+    record.licenseType = pick(LICENSE_TYPES, licenseType);
+    record.endorsements = Array.isArray(endorsements)
+      ? endorsements.filter((v): v is string => typeof v === "string" && ENDORSEMENTS.has(v))
+      : [];
+  }
+
   console.log("[contact]", record);
 
-  const forwarded = await forwardToScript(record);
+  /* The two channels are independent — run them together so a slow Apps Script
+     hop can't delay the Telegram ping (or vice versa). */
+  const [forwarded, notified] = await Promise.all([
+    forwardToScript(record),
+    notifyTelegram(record),
+  ]);
 
-  return NextResponse.json({ ok: true, forwarded });
+  return NextResponse.json({ ok: true, forwarded, notified });
 }

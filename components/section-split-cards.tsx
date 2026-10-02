@@ -16,7 +16,7 @@ const CARDS: SplitCard[] = [
     title: "Drive with us",
     body: "Join the Gepard Trans Logistics team as a skilled driver. We're hiring experienced drivers to join our dynamic fleet and be part of our mission to revolutionize logistics.",
     cta: "Apply now",
-    href: "/drivers",
+    href: "/drive-for-us",
     image: "/driver.webp",
     alt: "Gepard Trans driver behind the wheel at sunset",
   },

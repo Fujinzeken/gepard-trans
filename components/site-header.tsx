@@ -21,7 +21,7 @@ export default function SiteHeader() {
         {[
           ["Services", "/services"],
           ["Fleet", "/fleet"],
-          ["Drivers", "/drivers"],
+          ["Drive for us", "/drive-for-us"],
           ["Contact", "/#contact"],
         ].map(([label, href]) => (
           <Link key={label} href={href} className="transition-colors duration-150 hover:text-fog-50">

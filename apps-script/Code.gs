@@ -26,8 +26,31 @@
 var SHEET_ID = "";
 
 var TABS = { driver: "Drivers", partner: "Partners", customer: "Customers" };
-var HEADERS = ["Timestamp", "First name", "Last name", "Phone", "Message", "SMS consent"];
-var COL_WIDTHS = { "Timestamp": 150, "First name": 110, "Last name": 110, "Phone": 140, "Message": 360, "SMS consent": 110 };
+
+/* Column layout per tab. Partner/Customer keep the original layout; Drivers
+ * carries the extra "General information" answers collected by the driver
+ * application (/drive-for-us and the Driver tab of the contact form). Order
+ * here must match the row built in appendRow_ below.
+ */
+var LAYOUTS = {
+  Partners: {
+    headers: ["Timestamp", "First name", "Last name", "Phone", "Message", "SMS consent"],
+    widths: [150, 110, 110, 140, 360, 110],
+  },
+  Customers: {
+    headers: ["Timestamp", "First name", "Last name", "Phone", "Message", "SMS consent"],
+    widths: [150, 110, 110, 140, 360, 110],
+  },
+  Drivers: {
+    headers: [
+      "Timestamp", "First name", "Last name", "Phone", "Message", "SMS consent",
+      "US work eligible", "Relevant vehicle experience", "Current license type",
+      "Endorsements",
+    ],
+    widths: [150, 110, 110, 140, 360, 110, 130, 210, 290, 140],
+  },
+};
+
 var HEADER_BG = "#cb0201"; // Gepard red
 var HEADER_FG = "#ffffff";
 var TIMESTAMP_FORMAT = "yyyy-mm-dd hh:mm";
@@ -60,21 +83,34 @@ function doPost(e) {
 }
 
 function appendRow_(tabName, data) {
+  var layout = LAYOUTS[tabName];
   var sheet = getTab_(tabName);
-  ensureHeader_(sheet);
+  ensureHeader_(sheet, layout);
 
   var message = String(data.message || "").slice(0, MAX_MESSAGE);
-  sheet.appendRow([
+  var row = [
     new Date(),
     String(data.firstName || "").slice(0, 100),
     String(data.lastName || "").slice(0, 100),
     String(data.phone || "").slice(0, 40),
     message,
     data.smsConsent ? "Yes" : "No",
-  ]);
+  ];
 
-  var row = sheet.getLastRow();
-  sheet.setRowHeight(row, estimateRowHeight_(message));
+  if (tabName === "Drivers") {
+    var endorsements = Array.isArray(data.endorsements) ? data.endorsements : [];
+    row.push(
+      String(data.workEligible || ""),
+      String(data.experience || ""),
+      String(data.licenseType || ""),
+      endorsements.join(", ").slice(0, 120)
+    );
+  }
+
+  sheet.appendRow(row.slice(0, layout.headers.length));
+
+  var lastRow = sheet.getLastRow();
+  sheet.setRowHeight(lastRow, estimateRowHeight_(message));
 }
 
 function getTab_(name) {
@@ -85,23 +121,27 @@ function getTab_(name) {
 /** Guarantee the styled header band is row 1 — even on tabs that already
  *  existed without one (created manually, or by an older script version).
  *  If data is present but headers are missing, insert a row so existing
- *  entries are pushed below the header instead of overwritten. */
-function ensureHeader_(sheet) {
-  var first = sheet.getLastRow() >= 1
-    ? sheet.getRange(1, 1, 1, HEADERS.length).getValues()[0]
-    : [];
-  var headerOk = HEADERS.every(function (h, i) { return first[i] === h; });
+ *  entries are pushed below the header instead of overwritten. A row 1 that
+ *  already starts with a Timestamp header is an older schema (e.g. Drivers
+ *  gained columns) — restyle it in place rather than stacking a second
+ *  header row on top of the data. */
+function ensureHeader_(sheet, layout) {
+  var headers = layout.headers;
+  var last = sheet.getLastRow();
+  var first = last >= 1 ? sheet.getRange(1, 1, 1, headers.length).getValues()[0] : [];
+  var headerOk = headers.every(function (h, i) { return first[i] === h; });
   if (headerOk) return;
-  if (sheet.getLastRow() >= 1) sheet.insertRowBefore(1);
-  styleHeader_(sheet);
+  if (last >= 1 && String(first[0]).indexOf("Timestamp") === -1) sheet.insertRowBefore(1);
+  styleHeader_(sheet, layout);
 }
 
-function styleHeader_(sheet) {
-  var nCols = HEADERS.length;
+function styleHeader_(sheet, layout) {
+  var headers = layout.headers;
+  var nCols = headers.length;
 
   // Header band — bold white on Gepard red, frozen.
   sheet.getRange(1, 1, 1, nCols)
-    .setValues([HEADERS])
+    .setValues([headers])
     .setFontWeight("bold")
     .setFontColor(HEADER_FG)
     .setBackground(HEADER_BG)
@@ -109,8 +149,8 @@ function styleHeader_(sheet) {
   sheet.setFrozenRows(1);
 
   // Sensible widths.
-  HEADERS.forEach(function (h, i) {
-    sheet.setColumnWidth(i + 1, COL_WIDTHS[h] || 140);
+  headers.forEach(function (h, i) {
+    sheet.setColumnWidth(i + 1, layout.widths[i] || 140);
   });
 
   // Wrap the data area so long messages wrap instead of spilling/clipping.
@@ -124,7 +164,7 @@ function styleHeader_(sheet) {
 
 function createTab_(ss, name) {
   var sheet = ss.insertSheet(name);
-  styleHeader_(sheet);
+  styleHeader_(sheet, LAYOUTS[name]);
   return sheet;
 }
 

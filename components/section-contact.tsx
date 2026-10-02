@@ -2,6 +2,9 @@
 
 import { FormEvent, useState } from "react";
 
+import DriverInfoFields from "./driver-fields";
+import { CONSENT_COPY, INPUT_CLASS, PHONE_DISPLAY } from "./form-shared";
+
 /**
  * Contact section — "Still have a question?" with role tabs (Driver / Partner /
  * Customer), minimal fields, and the legal SMS-consent checkbox. Posts to
@@ -17,14 +20,9 @@ const ROLES: Array<{ id: Role; label: string }> = [
   { id: "customer", label: "Customer" },
 ];
 
-/* Pending client confirmation — 262-256-3782 treated as canonical for now. */
-const PHONE_DISPLAY = "+1 (262) 256-3782";
-
-const CONSENT_COPY =
-  "By checking this box, I agree to receive SMS messages about customer services from Gepard Trans Logistics INC at the phone number provided above. The SMS frequency may vary. Data rates may apply. Text HELP to 1-262-256-3782 for assistance. Reply STOP to opt out of receiving SMS messages.";
-
-const inputClass =
-  "w-full rounded-lg border border-graphite-700 bg-graphite-850 px-4 py-3 text-sm text-fog-50 outline-none transition-colors duration-150 placeholder:text-fog-500 focus:border-signal-500";
+/* Field chrome and the legally reviewed SMS wording are shared with the
+   driver application page — see components/form-shared.ts. */
+const inputClass = INPUT_CLASS.dark;
 
 export default function SectionContact() {
   const [role, setRole] = useState<Role>("driver");
@@ -48,6 +46,12 @@ export default function SectionContact() {
           phone: data.get("phone"),
           message: data.get("message"),
           smsConsent: consent,
+          /* Driver-only extras — absent (and ignored server-side) for the
+             Partner and Customer tabs. */
+          workEligible: data.get("workEligible"),
+          experience: data.get("experience"),
+          licenseType: data.get("licenseType"),
+          endorsements: data.getAll("endorsements"),
         }),
       });
       if (!res.ok) throw new Error(`HTTP ${res.status}`);
@@ -171,6 +175,16 @@ export default function SectionContact() {
                 <input name="phone" type="tel" autoComplete="tel" required className={inputClass} placeholder="(555) 000-0000" />
               </label>
 
+              {/* Driver tab collects the same extra answers as /drive-for-us */}
+              {role === "driver" && (
+                <div className="mt-8 border-t border-graphite-800 pt-8">
+                  <h3 className="font-display text-lg font-bold uppercase tracking-wide text-fog-50">
+                    General information
+                  </h3>
+                  <DriverInfoFields tone="dark" className="mt-5 space-y-7" />
+                </div>
+              )}
+
               <label className="mt-4 block">
                 <span className="mb-1.5 block text-xs font-semibold uppercase tracking-wider text-fog-400">
                   Your message <span className="font-normal normal-case text-fog-500">(optional)</span>
@@ -179,7 +193,11 @@ export default function SectionContact() {
                   name="message"
                   rows={4}
                   className={`${inputClass} resize-y`}
-                  placeholder={role === "driver" ? "Tell us about your experience and the area you drive in…" : "Tell us about your lanes, volumes, or equipment needs…"}
+                  placeholder={
+                    role === "driver"
+                      ? "Please describe other important information about yourself so that we can better understand your capabilities and job requirements (optional)"
+                      : "Tell us about your lanes, volumes, or equipment needs…"
+                  }
                 />
               </label>
 

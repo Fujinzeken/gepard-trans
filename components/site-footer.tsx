@@ -8,7 +8,7 @@ import Image from "next/image";
 const NAV = [
   { label: "Get a quote", href: "/#contact" },
   { label: "Contact us", href: "/#contact" },
-  { label: "Drive for us", href: "/drivers" },
+  { label: "Drive for us", href: "/drive-for-us" },
 ];
 
 const LEGAL = [
