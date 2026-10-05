@@ -18,24 +18,39 @@ export default function DriveForUsPage() {
       <main className="flex flex-1 flex-col">
         {/* Hero — full-bleed truck photo behind the application pitch. The band
             is deliberately tall: object-cover fills the box by scaling the photo
-            until its WIDTH covers, then cropping the rest. A short band therefore
-            cuts a 4:3 photo down to a narrow centre strip (500px tall at a 1440px
-            viewport showed only ~46% of the frame) and reads as "zoomed in".
-            Keeping it near the viewport height restores most of the composition.
+            until its WIDTH (not its height) covers, then crops the rest. A short
+            band therefore cuts a tall photo down to a narrow centre strip.
+            truck5.jpg is 2:3 portrait, the reverse of a landscape shot, so the
+            visible fraction is small and very band-sensitive — 26% of the frame
+            height at 1920x760, 32% at 1440x700, 49% at 768x560. Measured on the
+            real crop, the cab's roof keeps >=3.7% headroom in all three, so the
+            truck is never decapitated; a taller band is simply more generous.
             From `md` up only: a phone's band is a tall, narrow window, so extra
             height there would crop the frame's WIDTH instead — more zoom, not
-            less — so mobile keeps its content-driven height. */}
+            less — so mobile keeps its content-driven height (and, at ~0.74 box
+            aspect against a 0.67 photo, mobile shows nearly the whole frame). */}
         <section className="relative isolate overflow-hidden bg-graphite-950 px-6 pb-44 pt-24 text-center md:min-h-[max(560px,80svh)] md:px-16 md:pb-56 md:pt-32 lg:px-24">
           <Image
-            src="/truck1.jpg"
+            src="/truck5.jpg"
             alt=""
             fill
-            priority
+            preload
             sizes="100vw"
-            className="-z-10 object-cover"
+            className="-z-10 object-cover object-center"
           />
+
+          {/* Scrim for the copy. Two things matter here:
+              1. `absolute inset-0` is load-bearing. A static div has no content,
+                 so it collapses to zero height and paints nothing at all —
+                 which left the headline white-on-teal-sky and unreadable.
+              2. Direction is top-heavy, the opposite of the homepage hero: there
+                 the copy sits on the tarmac at the bottom, here it sits on the
+                 sky at the top. The brightest thing in this frame (a white cab)
+                 sits dead centre, right where the paragraph lands, so the middle
+                 stop stays high too. The bottom stays comparatively clear — the
+                 white card overlaps it anyway. */}
           <div
-            className="-z-10 bg-gradient-to-b from-graphite-950/85 via-graphite-950/60 to-graphite-950/40"
+            className="absolute inset-0 -z-10 bg-gradient-to-b from-graphite-950/90 from-0% via-graphite-950/78 via-50% to-graphite-950/30 to-100%"
             aria-hidden
           />
           <div className="mx-auto max-w-3xl">
