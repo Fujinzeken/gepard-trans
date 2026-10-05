@@ -23,14 +23,14 @@ export default function SiteFooter() {
         <div className="grid gap-12 md:grid-cols-[auto_1fr_auto_auto] md:gap-16">
           {/* Brand */}
           <div>
-            {/* Logo lockup — opaque light plate, so it needs no tinting (the
-                old placeholder mark used brightness-0/invert to go white). */}
+            {/* Logo lockup — white knockout on a transparent canvas, so it sits
+                directly on the dark footer with no plate under it. */}
             <Image
-              src="/logo_gepard.webp"
+              src="/logo_gepard_white.png"
               alt="Gepard Trans Logistics"
               width={344}
               height={96}
-              className="h-12 w-auto rounded-md bg-white"
+              className="h-12 w-auto"
             />
             <p className="mt-4 max-w-[24ch] text-xs leading-relaxed text-fog-500">
               Scalable capacity for every load — dry van, reefer, flatbed.

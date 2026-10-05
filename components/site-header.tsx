@@ -1,24 +1,25 @@
 import Image from "next/image";
 import Link from "next/link";
 
-/* Client logo lockup — red "GEPARD TRANS LOGISTICS INC" wordmark plus the
-   halftone cheetah (the Gepard namesake). The supplied webp is painted on an
-   opaque light plate with soft/partly transparent corners, so it sits on its
-   own white rounded plate to read cleanly on the graphite header — the artwork
-   has no alpha around the mark, so it can't be tinted white like the old
-   placeholder triangle was. */
+/* Client logo lockup — "GEPARD TRANS LOGISTICS INC" wordmark plus the halftone
+   cheetah (the Gepard namesake). logo_gepard_white.png is a white knockout of
+   the supplied artwork on a genuinely transparent canvas (the original ink is
+   red + black, so recolouring it white loses no internal detail), which lets it
+   sit straight on the graphite header with no plate behind it. The older
+   logo_gepard.webp is painted on an opaque light plate — that one still needs a
+   white chip under it, so keep using it only on light surfaces. */
 
 export default function SiteHeader() {
   return (
     <header className="sticky top-0 z-40 flex h-16 items-center justify-between border-b border-graphite-900/10 bg-graphite-950 px-6 md:px-16 lg:px-24">
       <Link href="/" className="flex items-center transition-opacity duration-150 hover:opacity-90">
         <Image
-          src="/logo_gepard.webp"
+          src="/logo_gepard_white.png"
           alt="Gepard Trans Logistics"
           width={344}
           height={96}
           loading="eager"
-          className="h-10 w-auto rounded-md bg-white"
+          className="h-10 w-auto"
         />
       </Link>
       <nav className="hidden items-center gap-8 text-sm text-fog-300 md:flex">
