@@ -1,21 +1,25 @@
 import Image from "next/image";
 import Link from "next/link";
 
-/* Temporary stand-in logo — replace with the client's real SVG mark.
-   "GEPARD TRANS" wordmark with the signal-amber dot. */
+/* Client logo lockup — red "GEPARD TRANS LOGISTICS INC" wordmark plus the
+   halftone cheetah (the Gepard namesake). The supplied webp is painted on an
+   opaque light plate with soft/partly transparent corners, so it sits on its
+   own white rounded plate to read cleanly on the graphite header — the artwork
+   has no alpha around the mark, so it can't be tinted white like the old
+   placeholder triangle was. */
 
 export default function SiteHeader() {
   return (
     <header className="sticky top-0 z-40 flex h-16 items-center justify-between border-b border-graphite-900/10 bg-graphite-950 px-6 md:px-16 lg:px-24">
-      <Link href="/" className="flex items-baseline gap-2">
-        <Image src="/logo.svg" alt="Gepard Trans Logistics" width={32} height={32} className="h-8 w-8" />
-        <span className="font-display text-xl font-bold uppercase tracking-wide text-fog-50">
-          Gepard
-        </span>
-        <span className="font-display text-xl font-medium uppercase tracking-wide text-fog-400">
-          Trans
-        </span>
-        <span className="ml-1 h-2 w-2 rounded-full bg-signal-500" aria-hidden />
+      <Link href="/" className="flex items-center transition-opacity duration-150 hover:opacity-90">
+        <Image
+          src="/logo_gepard.webp"
+          alt="Gepard Trans Logistics"
+          width={344}
+          height={96}
+          loading="eager"
+          className="h-10 w-auto rounded-md bg-white"
+        />
       </Link>
       <nav className="hidden items-center gap-8 text-sm text-fog-300 md:flex">
         {[
