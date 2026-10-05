@@ -16,10 +16,18 @@ export default function DriveForUsPage() {
     <>
       <SiteHeader />
       <main className="flex flex-1 flex-col">
-        {/* Hero — driver at the wheel behind the application pitch */}
-        <section className="relative isolate overflow-hidden bg-graphite-950 px-6 pb-44 pt-24 text-center md:px-16 md:pb-56 md:pt-32 lg:px-24">
+        {/* Hero — full-bleed truck photo behind the application pitch. The band
+            is deliberately tall: object-cover fills the box by scaling the photo
+            until its WIDTH covers, then cropping the rest. A short band therefore
+            cuts a 4:3 photo down to a narrow centre strip (500px tall at a 1440px
+            viewport showed only ~46% of the frame) and reads as "zoomed in".
+            Keeping it near the viewport height restores most of the composition.
+            From `md` up only: a phone's band is a tall, narrow window, so extra
+            height there would crop the frame's WIDTH instead — more zoom, not
+            less — so mobile keeps its content-driven height. */}
+        <section className="relative isolate overflow-hidden bg-graphite-950 px-6 pb-44 pt-24 text-center md:min-h-[max(560px,80svh)] md:px-16 md:pb-56 md:pt-32 lg:px-24">
           <Image
-            src="/driver.webp"
+            src="/truck1.jpg"
             alt=""
             fill
             priority
@@ -38,8 +46,8 @@ export default function DriveForUsPage() {
               className="fade-up mx-auto mt-6 max-w-2xl text-base leading-relaxed text-fog-200 md:text-lg"
               style={{ animationDelay: "80ms" }}
             >
-              Thank you for your interest in Gepard Trans Logistics INC. To apply
-              for a driving position, please complete this form to have a
+              Thank you for your interest in Gepard Trans Logistics INC. To
+              apply for a driving position, please complete this form to have a
               recruiter contact you about our driver opportunities.
             </p>
           </div>

@@ -73,7 +73,10 @@ export default function Hero() {
         {/* Equipment rail — the specs the old 3D showroom used to surface */}
         <ul className="mt-14 hidden gap-10 border-t border-fog-50/15 pt-6 sm:grid sm:grid-cols-3">
           {EQUIPMENT.map((item) => (
-            <li key={item.label} className="border-l-2 border-signal-500/70 pl-4">
+            <li
+              key={item.label}
+              className="border-l-2 border-signal-500/70 pl-4"
+            >
               <p className="font-display text-xl font-bold uppercase tracking-tight">
                 {item.label}
               </p>
