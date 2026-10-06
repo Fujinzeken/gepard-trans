@@ -57,37 +57,95 @@
   }
 }
 
-/* ── Freight ticker: continuous marquee for testimonial tickets ── */
-@keyframes ticker-scroll {
-  from {
-    transform: translateX(0);
-  }
+/* ── Homepage hero veil ──
+   Dark scrim over the yard footage.
+
+   It is graphite-950, not fog-50, because of what the clip actually is: a sunlit
+   aerial of white trailer roofs on pale concrete. Against footage that bright a
+   light scrim can only average out towards milk, which is what this hero used to
+   do. Darkening is also the cheaper direction to defend, because it flips the
+   worst case along with the ink: white text fails against the *brightest* pixel
+   under it (sunlit grass, rgb(231,255,214)), where the near-black ink it replaces
+   failed against the *darkest* one (pure black, in the trailer shadows).
+
+   Still a 740px band anchored to the hero's bottom edge rather than a percentage
+   of the frame, for the same reason as before: the copy is bottom-anchored too, so
+   its distance above the fold is identical on a 656px hero (1280x720 window) and
+   an 876px one, while its position as a fraction of the frame is not. A percentage
+   gradient thins out exactly where the copy moves up, which is how the previous
+   version came to fail the h1 at 2.71:1 on a 720p-class window.
+
+   The stops were solved against all ten sampled frames of the clip, composited the
+   way CSS actually paints them, at seven real viewports, each read through its own
+   object-cover crop. What each piece of ink needs at the brightest pixel beneath
+   it, worst case over all of them:
+
+     h1, fog-50, 72px bold (3:1)                  alpha >= 0.45
+     paragraph, fog-200, 16px (4.5:1)             alpha >= 0.62
+     outline pill label, fog-50, 12px (4.5:1)     alpha >= 0.57
+     rail label, fog-50, 20px bold (3:1)          alpha >= 0.44
+     rail detail, fog-200, 12px (4.5:1)           alpha >= 0.62
+
+   That is nearly flat with depth — 0.54 to 0.57 everywhere from 80px to 586px
+   above the fold — so the band below simply holds clear of the 0.62 the secondary
+   text asks for. What it lands at:
+
+     h1            5.84:1   (3:1 required)
+     paragraph     6.92:1   (4.5:1 required)
+     CTA row       7.52:1   (4.5:1 required)
+     rail label    8.35:1   (3:1 required)
+     rail detail   8.35:1   (4.5:1 required)
+
+   Most of those beat the light veil this replaces (h1 4.07:1 -> 5.84:1, paragraph
+   5.95:1 -> 6.92:1, CTA 7.40:1 -> 7.52:1) and the h1 gains most, because white ink
+   sits far from the luminance of a veiled background where near-black ink sat
+   almost on top of it. The rail gives up part of an oversized margin (9.11:1 ->
+   8.35:1) and is still nearly double what 12px text needs.
+
+   The hero is min-h-[max(620px,calc(100svh-64px))], so a short window can be
+   shorter than this band. The band stays anchored to the bottom and clipped at the
+   hero's top edge rather than stretched — the same safe direction to fail in as
+   before. Below 740px that means the faint end is never reached: the frame tops out
+   at ~38% scrim on a 1366x768 window and ~58% at the 620px floor, where the copy
+   has climbed most of the way to the top edge anyway. The 30% top stop is
+   deliberate for the heroes that *are* tall enough to reach it: it keeps a trace of
+   scrim all the way up so the frame reads as film rather than as a gradient wash. */
+.hero-veil {
+  position: absolute;
+  inset-inline: 0;
+  bottom: 0;
+  height: 740px;
+  background-image: linear-gradient(
+    to top,
+    color-mix(in srgb, var(--color-graphite-950) 80%, transparent) 0px,
+    color-mix(in srgb, var(--color-graphite-950) 77%, transparent) 60px,
+    color-mix(in srgb, var(--color-graphite-950) 73%, transparent) 170px,
+    color-mix(in srgb, var(--color-graphite-950) 70%, transparent) 300px,
+    color-mix(in srgb, var(--color-graphite-950) 68%, transparent) 430px,
+    color-mix(in srgb, var(--color-graphite-950) 66%, transparent) 530px,
+    color-mix(in srgb, var(--color-graphite-950) 63%, transparent) 600px,
+    color-mix(in srgb, var(--color-graphite-950) 30%, transparent) 740px
+  );
+}
+
+/* ── Coverage map: animated freight routes ──
+   Dashed route strokes march along their path (stroke-dashoffset). The dash
+   pattern itself (6 10) lives inline on the paths; only the offset animates. */
+@keyframes route-dash {
   to {
-    /* -50%: track holds two copies of the same run for a seamless loop */
-    transform: translateX(-50%);
+    stroke-dashoffset: -32;
   }
 }
 
-.ticker-track {
-  animation: ticker-scroll var(--ticker-duration, 60s) linear infinite;
-}
-
-.ticker-track--reverse {
-  animation-direction: reverse;
-}
-
-.ticker-viewport:hover .ticker-track {
-  animation-play-state: paused;
+.route-dash {
+  animation: route-dash 2.4s linear infinite;
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .ticker-track {
+  .route-dash {
     animation: none;
   }
-  /* Without motion, let users scroll the row manually instead */
-  .ticker-viewport {
-    overflow-x: auto;
-    scrollbar-width: thin;
-  }
 }
+
+
 

@@ -12,6 +12,8 @@ const eslintConfig = defineConfig([
     "out/**",
     "build/**",
     "next-env.d.ts",
+    // One-off generators (plain CJS scripts, run by hand): scripts/gen-us-map.cjs
+    "scripts/**",
   ]),
 ]);
 

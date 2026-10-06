@@ -1,5 +1,6 @@
 import Hero from "@/components/hero";
 import SectionContact from "@/components/section-contact";
+import SectionCoverage from "@/components/section-coverage";
 import SectionFaq from "@/components/section-faq";
 import SectionIntro from "@/components/section-intro";
 import SectionSplitCards from "@/components/section-split-cards";
@@ -14,6 +15,7 @@ export default function Home() {
       <main className="flex flex-1 flex-col">
         <Hero />
         <SectionIntro />
+        <SectionCoverage />
         <SectionSplitCards />
         <SectionTestimonials />
         <SectionFaq />
