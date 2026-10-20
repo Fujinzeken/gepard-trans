@@ -11,17 +11,17 @@ const nextConfig: NextConfig = {
   },
   async headers() {
     return [
-      /* Hero MP4 — allow progressive byte-range streaming and long cache.
-         Accept-Ranges comes from the static file server; Cache-Control helps
-         repeat visits start instantly. */
+      /* Hero MP4 — cache, but not immutable: the file is replaced in-place
+         during development and a forever-immutable header stuck browsers on
+         a stale/broken body. Leave Content-Type to the static file server so
+         byte-range requests stay intact. */
       {
         source: "/hero-video.mp4",
         headers: [
           {
             key: "Cache-Control",
-            value: "public, max-age=31536000, immutable",
+            value: "public, max-age=3600, must-revalidate",
           },
-          { key: "Content-Type", value: "video/mp4" },
         ],
       },
     ];

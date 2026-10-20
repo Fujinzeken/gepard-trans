@@ -2,9 +2,9 @@
 
 import { useEffect, useRef } from "react";
 
-/* Progressive hero clip — full-bleed, muted, looping. Starts playback as soon
-   as the first frames are buffered so the poster isn't stuck waiting for the
-   whole ~24MB file. Reduced-motion visitors never mount the element. */
+/* Full-bleed hero clip — muted autoplay loop. muted is set on the DOM node
+   (required for reliable autoplay). Faststart 720p MP4 streams first frames
+   without waiting for the whole file. */
 
 export default function HeroVideo() {
   const ref = useRef<HTMLVideoElement>(null);
@@ -13,15 +13,23 @@ export default function HeroVideo() {
     const el = ref.current;
     if (!el) return;
 
+    el.muted = true;
+    el.defaultMuted = true;
+    el.playsInline = true;
+
+    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
+      el.pause();
+      return;
+    }
+
     const tryPlay = () => {
-      const p = el.play();
-      if (p) void p.catch(() => {});
+      el.muted = true;
+      void el.play().catch(() => {});
     };
 
-    if (el.readyState >= 2) tryPlay();
-    else el.addEventListener("loadeddata", tryPlay, { once: true });
-
-    return () => el.removeEventListener("loadeddata", tryPlay);
+    tryPlay();
+    el.addEventListener("canplay", tryPlay);
+    return () => el.removeEventListener("canplay", tryPlay);
   }, []);
 
   return (
@@ -34,9 +42,8 @@ export default function HeroVideo() {
       playsInline
       preload="auto"
       poster="/dispatch.webp"
-      className="absolute inset-0 h-full w-full object-cover object-center motion-reduce:hidden"
-    >
-      <source src="/hero-video.mp4?v=yard" type="video/mp4" />
-    </video>
+      src="/hero-video.mp4?v=720p2"
+      className="absolute inset-0 z-[1] h-full w-full object-cover object-center"
+    />
   );
 }

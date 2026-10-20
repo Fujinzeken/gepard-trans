@@ -2,8 +2,8 @@ import Image from "next/image";
 
 import HeroVideo from "./hero-video";
 
-/* Full-width yard hero under the solid white nav. Poster + streamed MP4
-   (original yard clip — not the off-topic compressed office footage). */
+/* Full-width hero under the solid white nav. Poster is LCP; HeroVideo streams
+   a 720p faststart MP4 so first frames arrive without waiting on the full file. */
 
 const EQUIPMENT = [
   { label: "53′ Dry Van", detail: "up to 45,000 lb payload" },
@@ -20,18 +20,18 @@ export default function Hero() {
         fill
         preload
         sizes="100vw"
-        className="object-cover object-center"
+        className="z-0 object-cover object-center"
       />
 
       <HeroVideo />
 
       {/* Soft brand overlay for readable centered copy */}
       <div
-        className="absolute inset-0 bg-gradient-to-b from-graphite-950/55 via-graphite-950/40 to-graphite-950/65"
+        className="pointer-events-none absolute inset-0 z-[2] bg-gradient-to-b from-graphite-950/55 via-graphite-950/40 to-graphite-950/65"
         aria-hidden
       />
       <div
-        className="absolute inset-0 bg-signal-600/20 mix-blend-multiply"
+        className="pointer-events-none absolute inset-0 z-[2] bg-signal-600/20 mix-blend-multiply"
         aria-hidden
       />
 
