@@ -56,7 +56,7 @@ function StatTile({ label, value, suffix }: Stat) {
 
 export default function SectionIntro() {
   return (
-    <section className="bg-fog-50">
+    <section id="why" className="scroll-mt-20 bg-fog-50">
       {/* Prime-style split: photo column full-bleed left, copy column right.
           The photo carries the section on desktop (no container, no padding);
           on tablet/phone it becomes a banner above the copy. */}
@@ -107,10 +107,7 @@ export default function SectionIntro() {
               className="fade-up mt-10"
               style={{ animationDelay: "200ms" }}
             >
-              <a
-                href="#contact"
-                className="rounded-full bg-signal-500 px-7 py-3.5 text-xs font-bold uppercase tracking-wider text-graphite-950 transition-colors duration-150 hover:bg-signal-600 hover:text-fog-50"
-              >
+              <a href="#contact" className="btn-primary">
                 Ship with us
               </a>
             </p>

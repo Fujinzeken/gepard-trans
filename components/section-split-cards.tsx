@@ -73,7 +73,7 @@ const ROWS: SplitRow[] = [
       "96% of US ZIP codes covered",
     ],
     cta: "See the fleet",
-    href: "/fleet",
+    href: "/#coverage",
     secondary: { text: `or talk to dispatch — ${PHONE}`, href: `tel:+12622563782` },
     image: "/fleet.webp",
     alt: "Gepard Trans red semi trucks lined up at the yard",
@@ -101,16 +101,16 @@ function SplitEntry({ row }: { row: SplitRow }) {
         className="scale-[1.03] object-cover object-center grayscale transition-transform duration-[1400ms] ease-out group-hover:scale-[1.08]"
       />
       <div
-        className="absolute inset-0 bg-signal-600 opacity-50 mix-blend-multiply"
+        className="absolute inset-0 bg-signal-500 opacity-40 mix-blend-multiply"
         aria-hidden
       />
       <div
-        className="absolute inset-0 bg-gradient-to-t from-graphite-950/90 via-graphite-950/10 to-graphite-950/30"
+        className="absolute inset-0 bg-gradient-to-t from-graphite-950/75 via-graphite-950/15 to-fog-50/20"
         aria-hidden
       />
-      {/* Editorial inner frame, echoing Prime's inset-image treatment */}
+      {/* Editorial inner frame */}
       <div
-        className="pointer-events-none absolute inset-4 hidden border border-fog-50/15 lg:block"
+        className="pointer-events-none absolute inset-4 hidden border border-white/20 lg:block"
         aria-hidden
       />
       {/* Drawn seam: full-height signal hairline on the photo's inner edge */}
@@ -203,10 +203,7 @@ function SplitEntry({ row }: { row: SplitRow }) {
           className="fade-up mt-10 flex flex-wrap items-center gap-x-6 gap-y-3"
           style={{ animationDelay: "220ms" }}
         >
-          <Link
-            href={row.href}
-            className="group/btn inline-flex items-center gap-2.5 rounded-full bg-signal-500 px-8 py-4 text-xs font-bold uppercase tracking-wider text-graphite-950 shadow-[0_10px_30px_-12px_rgba(226,32,56,0.55)] transition-all duration-150 hover:-translate-y-0.5 hover:bg-signal-600 hover:text-fog-50"
-          >
+          <Link href={row.href} className="btn-primary group/btn">
             {row.cta}
             <svg
               width="14"
@@ -255,7 +252,7 @@ function SplitEntry({ row }: { row: SplitRow }) {
 
 export default function SectionSplitCards() {
   return (
-    <section id="drive" className="bg-fog-50">
+    <section id="fleet" className="scroll-mt-20 bg-fog-50">
       {ROWS.map((row) => (
         <SplitEntry key={row.eyebrow} row={row} />
       ))}

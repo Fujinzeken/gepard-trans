@@ -224,10 +224,7 @@ export default function SectionTestimonials() {
             Your load <span className="text-signal-600">next</span>
           </p>
           <div className="flex flex-wrap items-center gap-x-6 gap-y-3">
-            <Link
-              href="/#contact"
-              className="group/btn inline-flex items-center gap-2.5 rounded-full bg-signal-500 px-8 py-4 text-xs font-bold uppercase tracking-wider text-graphite-950 shadow-[0_10px_30px_-12px_rgba(226,32,56,0.55)] transition-all duration-150 hover:-translate-y-0.5 hover:bg-signal-600 hover:text-fog-50"
-            >
+            <Link href="/#contact" className="btn-primary group/btn">
               Get a quote
               <svg
                 width="14"

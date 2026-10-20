@@ -42,7 +42,7 @@ const STOPS: [number, number][] = [
 
 function CoverageMap() {
   return (
-    <div className="relative overflow-hidden rounded-3xl border border-fog-50/10 bg-graphite-900 p-4 md:p-6">
+    <div className="relative overflow-hidden border border-graphite-900/10 bg-white p-4 md:p-6">
       <svg
         viewBox={US_MAP_VIEWBOX}
         role="img"
@@ -51,9 +51,9 @@ function CoverageMap() {
       >
         <path
           d={US_MAP_PATH}
-          fill="var(--color-graphite-800)"
-          stroke="var(--color-fog-500)"
-          strokeOpacity={0.18}
+          fill="var(--color-fog-50)"
+          stroke="var(--color-graphite-500)"
+          strokeOpacity={0.35}
           strokeWidth={1.2}
           vectorEffect="non-scaling-stroke"
         />
@@ -71,7 +71,7 @@ function CoverageMap() {
           />
         ))}
         {STOPS.map(([x, y], i) => (
-          <circle key={i} cx={x} cy={y} r={5} fill="var(--color-fog-300)" />
+          <circle key={i} cx={x} cy={y} r={5} fill="var(--color-graphite-600)" />
         ))}
         <circle
           cx={HUB[0]}
@@ -83,7 +83,7 @@ function CoverageMap() {
         />
         <circle cx={HUB[0]} cy={HUB[1]} r={5.5} fill="var(--color-signal-500)" />
       </svg>
-      <p className="absolute bottom-4 left-4 rounded-full border border-fog-50/15 bg-graphite-950/85 px-4 py-2 text-xs font-semibold uppercase tracking-wider text-fog-200 md:bottom-6 md:left-6">
+      <p className="absolute bottom-4 left-4 border border-graphite-900/10 bg-white px-4 py-2 text-xs font-semibold uppercase tracking-wider text-graphite-700 md:bottom-6 md:left-6">
         96% of US ZIP codes covered
       </p>
     </div>
@@ -97,7 +97,7 @@ function TruckFrame({ children }: { children: React.ReactNode }) {
     <svg
       viewBox="0 0 220 96"
       aria-hidden
-      className="h-20 w-auto text-fog-300"
+      className="h-20 w-auto text-graphite-500"
       fill="none"
       stroke="currentColor"
       strokeWidth={2.5}
@@ -185,24 +185,24 @@ const EQUIPMENT = [
 
 export default function SectionCoverage() {
   return (
-    <section id="coverage" className="bg-graphite-950 px-6 py-24 md:px-16 md:py-32 lg:px-24">
+    <section id="coverage" className="scroll-mt-20 bg-white px-6 py-24 md:px-16 md:py-32 lg:px-24">
       <div className="mx-auto max-w-7xl">
         <div className="grid gap-12 lg:grid-cols-2 lg:items-center lg:gap-16">
           <div>
             <p className="fade-up flex items-center gap-3">
               <span className="h-px w-8 bg-signal-500" aria-hidden />
-              <span className="text-xs font-bold uppercase tracking-[0.3em] text-signal-300">
+              <span className="text-xs font-bold uppercase tracking-[0.3em] text-signal-600">
                 Transportation &amp; logistics services
               </span>
             </p>
             <h2
-              className="fade-up mt-5 font-display text-5xl font-bold uppercase italic leading-[0.95] tracking-tight text-fog-50 md:text-6xl"
+              className="fade-up mt-5 font-display text-5xl font-bold uppercase italic leading-[0.95] tracking-tight text-graphite-950 md:text-6xl"
               style={{ animationDelay: "80ms" }}
             >
               Deliver farther
             </h2>
             <p
-              className="fade-up mt-8 max-w-xl text-base leading-relaxed text-fog-200 md:text-lg"
+              className="fade-up mt-8 max-w-xl text-base leading-relaxed text-graphite-600 md:text-lg"
               style={{ animationDelay: "140ms" }}
             >
               From the Pacific Northwest to the tip of Florida, our trucks run
@@ -211,10 +211,7 @@ export default function SectionCoverage() {
               tracked, and delivered by a dispatch team that never clocks out.
             </p>
             <p className="fade-up mt-10" style={{ animationDelay: "200ms" }}>
-              <a
-                href="#contact"
-                className="rounded-full border border-fog-50 px-7 py-3.5 text-xs font-bold uppercase tracking-wider text-fog-50 transition-colors duration-150 hover:bg-fog-50/10"
-              >
+              <a href="#contact" className="btn-outline">
                 Get a quote
               </a>
             </p>
@@ -227,16 +224,16 @@ export default function SectionCoverage() {
 
         <div className="mt-16 grid gap-4 sm:grid-cols-3 md:mt-20">
           {EQUIPMENT.map(({ name, specs, Icon }, i) => (
-            <TiltCard key={name} max={6} className="rounded-2xl">
+            <TiltCard key={name} max={6}>
               <div
-                className="fade-up h-full rounded-2xl border border-fog-50/10 bg-graphite-900 p-8"
+                className="fade-up h-full border border-graphite-900/10 bg-fog-50 p-8 transition-colors duration-300 hover:border-signal-500/40"
                 style={{ animationDelay: `${200 + i * 80}ms` }}
               >
                 <Icon />
-                <h3 className="mt-6 font-display text-2xl font-bold uppercase italic tracking-tight text-fog-50">
+                <h3 className="mt-6 font-display text-2xl font-bold uppercase italic tracking-tight text-graphite-950">
                   {name}
                 </h3>
-                <ul className="mt-3 space-y-1.5 text-sm text-fog-400">
+                <ul className="mt-3 space-y-1.5 text-sm text-graphite-600">
                   {specs.map((spec) => (
                     <li key={spec}>{spec}</li>
                   ))}

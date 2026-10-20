@@ -140,7 +140,7 @@ export default function DriveApplicationForm() {
       <button
         type="submit"
         disabled={status === "sending"}
-        className="mt-8 w-full rounded-full bg-signal-500 px-8 py-4 text-xs font-bold uppercase tracking-wider text-white transition-colors duration-150 hover:bg-signal-600 disabled:cursor-not-allowed disabled:opacity-60 sm:w-auto"
+        className="btn-primary mt-8 w-full disabled:cursor-not-allowed disabled:opacity-60 sm:w-auto"
       >
         {status === "sending" ? "Submitting…" : "Submit now"}
       </button>

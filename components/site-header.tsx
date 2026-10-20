@@ -1,53 +1,91 @@
+"use client";
+
 import Image from "next/image";
 import Link from "next/link";
+import { useState } from "react";
 
-/* Client logo lockup — "GEPARD TRANS LOGISTICS INC" wordmark plus the halftone
-   cheetah (the Gepard namesake). logo_gepard_white.png is a white knockout of
-   the supplied artwork on a genuinely transparent canvas (the original ink is
-   red + black, so recolouring it white loses no internal detail), which lets it
-   sit straight on the graphite header with no plate behind it. The older
-   logo_gepard.webp is painted on an opaque light plate — that one still needs a
-   white chip under it, so keep using it only on light surfaces. */
+import SiteMenu from "./site-menu";
+
+/* Solid light navbar — white bar on every page, Prime-style dual CTAs + MENU. */
 
 export default function SiteHeader() {
+  const [menuOpen, setMenuOpen] = useState(false);
+
   return (
-    <header className="sticky top-0 z-40 flex h-16 items-center justify-between border-b border-graphite-900/10 bg-graphite-950 px-6 md:px-16 lg:px-24">
-      <Link href="/" className="flex items-center transition-opacity duration-150 hover:opacity-90">
-        <Image
-          src="/logo_gepard_white.png"
-          alt="Gepard Trans Logistics"
-          width={344}
-          height={96}
-          loading="eager"
-          className="h-10 w-auto"
-        />
-      </Link>
-      <nav className="hidden items-center gap-8 text-sm text-fog-300 md:flex">
-        {[
-          ["Services", "/services"],
-          ["Fleet", "/fleet"],
-          ["Drive for us", "/drive-for-us"],
-          ["Contact", "/#contact"],
-        ].map(([label, href]) => (
-          <Link key={label} href={href} className="transition-colors duration-150 hover:text-fog-50">
-            {label}
-          </Link>
-        ))}
-      </nav>
-      <div className="flex items-center gap-4">
-        <a
-          href="tel:+12622563782"
-          className="hidden text-sm text-fog-400 transition-colors duration-150 hover:text-fog-50 lg:block"
-        >
-          +1 (262) 256-3782
-        </a>
+    <>
+      <header className="sticky top-0 z-40 flex h-16 items-center justify-between gap-4 border-b border-graphite-900/10 bg-white px-4 md:h-[4.25rem] md:px-10 lg:px-16">
         <Link
-          href="/#contact"
-          className="rounded-full bg-signal-500 px-4 py-2 text-xs font-bold uppercase tracking-wider text-graphite-950 transition-colors duration-150 hover:bg-signal-600"
+          href="/"
+          className="flex shrink-0 items-center transition-opacity duration-150 hover:opacity-90"
         >
-          Get a quote
+          <Image
+            src="/logo_gepard.webp"
+            alt="Gepard Trans Logistics"
+            width={344}
+            height={96}
+            loading="eager"
+            className="h-9 w-auto md:h-10"
+          />
         </Link>
+
+        <div className="flex min-w-0 flex-1 items-center justify-end gap-2 sm:gap-3 md:gap-4">
+          <nav
+            className="hidden items-center gap-2 md:flex lg:gap-3"
+            aria-label="Quick actions"
+          >
+            <Link href="/drive-for-us" className="btn-outline-light">
+              Drive for us
+            </Link>
+            <Link href="/#contact" className="btn-outline-light">
+              Get a quote
+            </Link>
+          </nav>
+
+          <a
+            href="tel:+12622563782"
+            className="hidden items-center gap-2 text-xs font-bold uppercase tracking-[0.15em] text-graphite-700 transition-colors duration-150 hover:text-signal-500 sm:inline-flex"
+          >
+            <PhoneIcon />
+            <span className="hidden lg:inline">Call</span>
+          </a>
+
+          <button
+            type="button"
+            onClick={() => setMenuOpen(true)}
+            aria-expanded={menuOpen}
+            aria-controls="site-menu"
+            className="inline-flex items-center gap-2.5 px-1 py-2 text-xs font-bold uppercase tracking-[0.2em] text-graphite-950 transition-colors duration-150 hover:text-signal-500"
+          >
+            <span className="flex w-5 flex-col gap-[5px]" aria-hidden>
+              <span className="h-[1.5px] w-full bg-current" />
+              <span className="h-[1.5px] w-full bg-current" />
+              <span className="h-[1.5px] w-3/4 bg-current" />
+            </span>
+            Menu
+          </button>
+        </div>
+      </header>
+
+      <div id="site-menu">
+        <SiteMenu open={menuOpen} onClose={() => setMenuOpen(false)} />
       </div>
-    </header>
+    </>
+  );
+}
+
+function PhoneIcon() {
+  return (
+    <svg
+      viewBox="0 0 24 24"
+      className="h-4 w-4"
+      fill="none"
+      stroke="currentColor"
+      strokeWidth={2}
+      strokeLinecap="round"
+      strokeLinejoin="round"
+      aria-hidden
+    >
+      <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0 1 22 16.92z" />
+    </svg>
   );
 }

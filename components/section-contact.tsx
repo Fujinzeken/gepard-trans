@@ -66,7 +66,7 @@ export default function SectionContact() {
   }
 
   return (
-    <section id="contact" className="border-t border-fog-200 bg-white px-6 py-24 text-graphite-700 md:px-16 md:py-32 lg:px-24">
+    <section id="contact" className="scroll-mt-20 border-t border-fog-200 bg-white px-6 py-24 text-graphite-700 md:px-16 md:py-32 lg:px-24">
       <div className="mx-auto grid max-w-7xl gap-12 lg:grid-cols-2 lg:gap-20">
         {/* Left — pitch */}
         <div>
@@ -167,7 +167,7 @@ export default function SectionContact() {
                     role="tab"
                     aria-selected={role === r.id}
                     onClick={() => setRole(r.id)}
-                    className={`flex-1 rounded-full px-3 py-2 text-[11px] font-bold uppercase tracking-wider transition-colors duration-150 ${
+                    className={`flex-1 px-3 py-2.5 text-[11px] font-bold uppercase tracking-wider transition-colors duration-150 ${
                       role === r.id
                         ? "bg-signal-500 text-white"
                         : "border border-graphite-900/15 text-graphite-600 hover:border-signal-500/60 hover:text-graphite-950"
@@ -235,7 +235,7 @@ export default function SectionContact() {
               <button
                 type="submit"
                 disabled={status === "sending"}
-                className="mt-6 w-full rounded-full bg-signal-500 px-8 py-4 text-xs font-bold uppercase tracking-wider text-graphite-950 shadow-[0_10px_30px_-12px_rgba(226,32,56,0.55)] transition-all duration-150 hover:-translate-y-0.5 hover:bg-signal-600 hover:text-fog-50 disabled:translate-y-0 disabled:cursor-not-allowed disabled:opacity-60 sm:w-auto"
+                className="btn-primary mt-6 w-full disabled:cursor-not-allowed disabled:opacity-60 sm:w-auto"
               >
                 {status === "sending" ? "Sending…" : "Send now"}
               </button>

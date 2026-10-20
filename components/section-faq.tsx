@@ -42,7 +42,7 @@ export default function SectionFaq() {
   const [openIndex, setOpenIndex] = useState<number | null>(0);
 
   return (
-    <section className="bg-fog-50 px-6 py-24 md:px-16 md:py-32 lg:px-24">
+    <section id="faq" className="scroll-mt-20 bg-fog-50 px-6 py-24 md:px-16 md:py-32 lg:px-24">
       <div className="mx-auto grid max-w-7xl gap-12 lg:grid-cols-[1fr_1.6fr] lg:gap-20">
         {/* Left — header column, same craft layer as the other sections */}
         <div className="relative">
@@ -80,10 +80,7 @@ export default function SectionFaq() {
             className="fade-up mt-10 flex flex-wrap items-center gap-x-6 gap-y-3"
             style={{ animationDelay: "180ms" }}
           >
-            <Link
-              href="/#contact"
-              className="group/btn inline-flex items-center gap-2.5 rounded-full bg-signal-500 px-8 py-4 text-xs font-bold uppercase tracking-wider text-graphite-950 shadow-[0_10px_30px_-12px_rgba(226,32,56,0.55)] transition-all duration-150 hover:-translate-y-0.5 hover:bg-signal-600 hover:text-fog-50"
-            >
+            <Link href="/#contact" className="btn-primary group/btn">
               Get in touch
               <svg width="14" height="14" viewBox="0 0 16 16" fill="none" aria-hidden className="transition-transform duration-300 group-hover/btn:translate-x-1">
                 <path d="M2 8h11M9 3.5 13.5 8 9 12.5" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
