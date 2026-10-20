@@ -1,8 +1,8 @@
 import TiltCard from "./tilt-card";
 import { US_MAP_PATH, US_MAP_VIEWBOX } from "./us-map-path";
 
-/* "Deliver farther" — the coverage/services section, our answer to Prime's
- * map-and-equipment block at #deliver-farther.
+/* "Deliver further" — the coverage/services section, our answer to Prime's
+ * map-and-equipment block at #deliver-further.
  *
  * Two halves:
  *   1. A US map panel with animated freight routes between seven cities.
@@ -148,23 +148,6 @@ function ReeferIcon() {
   );
 }
 
-function FlatbedIcon() {
-  return (
-    <TruckFrame>
-      {/* Deck */}
-      <line x1={8} y1={62} x2={200} y2={62} />
-      <line x1={8} y1={57} x2={200} y2={57} strokeOpacity={0.4} />
-      <Cab />
-      {/* Load: two crates, strapped down */}
-      <rect x={22} y={33} width={30} height={24} />
-      <rect x={60} y={27} width={36} height={30} />
-      <line x1={16} y1={40} x2={22} y2={48} stroke="var(--color-signal-500)" />
-      <line x1={54} y1={40} x2={60} y2={44} stroke="var(--color-signal-500)" />
-      <line x1={96} y1={40} x2={102} y2={52} stroke="var(--color-signal-500)" />
-    </TruckFrame>
-  );
-}
-
 const EQUIPMENT = [
   {
     name: "53′ Dry Van",
@@ -175,11 +158,6 @@ const EQUIPMENT = [
     name: "53′ Reefer",
     specs: ["−20°F to 75°F", "24/7 temperature telemetry"],
     Icon: ReeferIcon,
-  },
-  {
-    name: "48′–53′ Flatbed",
-    specs: ["Straps, chains & tarps", "Overweight & oversized"],
-    Icon: FlatbedIcon,
   },
 ];
 
@@ -199,7 +177,7 @@ export default function SectionCoverage() {
               className="fade-up mt-5 font-display text-5xl font-bold uppercase italic leading-[0.95] tracking-tight text-graphite-950 md:text-6xl"
               style={{ animationDelay: "80ms" }}
             >
-              Deliver farther
+              Deliver further
             </h2>
             <p
               className="fade-up mt-8 max-w-xl text-base leading-relaxed text-graphite-600 md:text-lg"
@@ -207,7 +185,7 @@ export default function SectionCoverage() {
             >
               From the Pacific Northwest to the tip of Florida, our trucks run
               the lanes that keep American supply chains moving. One call puts
-              dry van, reefer, or flatbed capacity on your lane — routed,
+              dry van or reefer capacity on your lane — routed,
               tracked, and delivered by a dispatch team that never clocks out.
             </p>
             <p className="fade-up mt-10" style={{ animationDelay: "200ms" }}>
@@ -222,7 +200,7 @@ export default function SectionCoverage() {
           </div>
         </div>
 
-        <div className="mt-16 grid gap-4 sm:grid-cols-3 md:mt-20">
+        <div className="mx-auto mt-16 grid max-w-3xl gap-4 sm:grid-cols-2 md:mt-20">
           {EQUIPMENT.map(({ name, specs, Icon }, i) => (
             <TiltCard key={name} max={6}>
               <div

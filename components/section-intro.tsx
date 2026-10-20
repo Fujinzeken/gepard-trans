@@ -20,17 +20,8 @@ const STATS: Stat[] = [
  * flush to the viewport's left edge, copy column on the light right half, and
  * the proof-point stat row beneath.
  *
- * The photo is hero.jpg — the one unused image left in /public, and the reason
- * this slot exists at all. At 5081x2638 (1.93:1) it is the only wide source in
- * the set, so it gets the only wide slot: the left column lands at roughly
- * 1.4:1 on a 1440 desktop, which trims 28% of its width off the right edge
- * (object-cover, centered) instead of the 59% a 3:4 portrait tile would have
- * thrown away. The portrait pair that used to sit here (truck5.jpg,
- * contact.jpg) is retired rather than squeezed in beside a full-bleed photo —
- * Prime reads as credible because the truck is huge and the copy is quiet.
- *
- * The stats below are the actual "why": four proof points with count-up, kept
- * from the previous version of this section. */
+ * The photo is the branded studio tractor — landscape, high contrast, and
+ * clearly Gepard equipment — so the left column reads as fleet, not stock. */
 
 function StatTile({ label, value, suffix }: Stat) {
   const [ref, display] = useCountUp(value);
@@ -63,8 +54,8 @@ export default function SectionIntro() {
       <div className="grid lg:grid-cols-[1.15fr_1fr]">
         <div className="relative h-72 w-full sm:h-96 lg:h-auto lg:min-h-[36rem]">
           <Image
-            src="/hero.jpg"
-            alt="A Gepard Trans tractor on the open highway"
+            src="/fleet/branded-studio.jpg"
+            alt="Gepard Trans Logistics branded blue tractor in studio lighting"
             fill
             sizes="(min-width: 1024px) 55vw, 100vw"
             className="object-cover object-center"
@@ -100,7 +91,7 @@ export default function SectionIntro() {
                 Success is built on strong relationships with brokers and
                 drivers. We work closely with every client to understand their
                 unique needs and develop customized logistics solutions — dry
-                van, reefer, or flatbed — that help them achieve their goals.
+                van or reefer — that help them achieve their goals.
               </p>
             </div>
             <p
@@ -116,7 +107,7 @@ export default function SectionIntro() {
       </div>
 
       {/* Proof points — the stat row from the previous intro, unchanged */}
-      <div className="mx-auto max-w-7xl px-6 pb-24 md:px-16 md:pb-32 lg:px-24">
+      <div className="mx-auto max-w-7xl px-6 pb-24 pt-12 md:px-16 md:pb-32 md:pt-16 lg:px-24">
         <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-4">
           {STATS.map((stat) => (
             <StatTile key={stat.label} {...stat} />

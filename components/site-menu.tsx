@@ -22,7 +22,7 @@ const LINKS = [
 const FEATURED = [
   {
     title: "Ship with us",
-    blurb: "Dry van, reefer, and flatbed — quote in minutes.",
+    blurb: "Dry van and reefer — quote in minutes.",
     href: "/#contact",
     cta: "Get a quote",
   },

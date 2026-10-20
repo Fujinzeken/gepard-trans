@@ -8,11 +8,11 @@ type Faq = { q: string; a: string };
 const FAQS: Faq[] = [
   {
     q: "What types of loads do you handle?",
-    a: "We specialize in transporting dry van, refrigerated (reefer), and flatbed loads across the United States.",
+    a: "We specialize in transporting dry van and refrigerated (reefer) loads across the United States.",
   },
   {
     q: "What types of trucks are in the Gepard Trans Logistics fleet?",
-    a: "Our fleet includes Kenworth and Freightliner Cascadia trucks, with models ranging from 2021 to 2025.",
+    a: "Our fleet consists of Freightliner Cascadia trucks, with model years ranging from 2022 to 2027.",
   },
   {
     q: "What qualifications are required for hiring drivers?",

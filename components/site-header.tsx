@@ -2,24 +2,43 @@
 
 import Image from "next/image";
 import Link from "next/link";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 import SiteMenu from "./site-menu";
 
-/* Solid light navbar — white bar on every page, Prime-style dual CTAs + MENU. */
+/* Navbar. On `overlay` pages (home) it floats transparent over the hero with
+   the white logo, then turns into a blurred white bar once the page scrolls.
+   Elsewhere it is always the solid bar. */
 
-export default function SiteHeader() {
+export default function SiteHeader({ overlay = false }: { overlay?: boolean }) {
   const [menuOpen, setMenuOpen] = useState(false);
+  const [scrolled, setScrolled] = useState(false);
+
+  useEffect(() => {
+    const onScroll = () => setScrolled(window.scrollY > 24);
+    onScroll();
+    window.addEventListener("scroll", onScroll, { passive: true });
+    return () => window.removeEventListener("scroll", onScroll);
+  }, []);
+
+  const clear = overlay && !scrolled;
+  const ink = clear ? "text-white" : "text-graphite-950";
 
   return (
     <>
-      <header className="sticky top-0 z-40 flex h-16 items-center justify-between gap-4 border-b border-graphite-900/10 bg-white px-4 md:h-[4.25rem] md:px-10 lg:px-16">
+      <header
+        className={`${overlay ? "fixed inset-x-0" : "sticky"} top-0 z-40 flex h-16 items-center justify-between gap-4 border-b px-4 transition-[background-color,box-shadow,border-color] duration-300 md:h-[4.25rem] md:px-10 lg:px-16 ${
+          clear
+            ? "border-transparent bg-transparent"
+            : "border-graphite-900/10 bg-white/85 shadow-[0_8px_24px_-12px_rgba(10,12,15,0.25)] backdrop-blur-xl"
+        }`}
+      >
         <Link
           href="/"
           className="flex shrink-0 items-center transition-opacity duration-150 hover:opacity-90"
         >
           <Image
-            src="/logo_gepard.webp"
+            src={clear ? "/logo_gepard_white.png" : "/logo_gepard.webp"}
             alt="Gepard Trans Logistics"
             width={344}
             height={96}
@@ -33,17 +52,24 @@ export default function SiteHeader() {
             className="hidden items-center gap-2 md:flex lg:gap-3"
             aria-label="Quick actions"
           >
-            <Link href="/drive-for-us" className="btn-outline-light">
+            <Link
+              href="/drive-for-us"
+              className={
+                clear
+                  ? "btn-outline-light !border-white !text-white hover:!bg-white hover:!text-signal-600"
+                  : "btn-outline-light"
+              }
+            >
               Drive for us
             </Link>
-            <Link href="/#contact" className="btn-outline-light">
+            <Link href="/#contact" className="btn-primary">
               Get a quote
             </Link>
           </nav>
 
           <a
             href="tel:+12622563782"
-            className="hidden items-center gap-2 text-xs font-bold uppercase tracking-[0.15em] text-graphite-700 transition-colors duration-150 hover:text-signal-500 sm:inline-flex"
+            className={`hidden items-center gap-2 text-xs font-bold uppercase tracking-[0.15em] ${clear ? "text-white" : "text-graphite-700"} transition-colors duration-150 hover:text-signal-500 sm:inline-flex`}
           >
             <PhoneIcon />
             <span className="hidden lg:inline">Call</span>
@@ -54,7 +80,7 @@ export default function SiteHeader() {
             onClick={() => setMenuOpen(true)}
             aria-expanded={menuOpen}
             aria-controls="site-menu"
-            className="inline-flex items-center gap-2.5 px-1 py-2 text-xs font-bold uppercase tracking-[0.2em] text-graphite-950 transition-colors duration-150 hover:text-signal-500"
+            className={`inline-flex items-center gap-2.5 px-1 py-2 text-xs font-bold uppercase tracking-[0.2em] ${ink} transition-colors duration-150 hover:text-signal-500`}
           >
             <span className="flex w-5 flex-col gap-[5px]" aria-hidden>
               <span className="h-[1.5px] w-full bg-current" />

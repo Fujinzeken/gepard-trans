@@ -30,7 +30,7 @@
   /* Verdict — on-time green (reserved for success states & stats) */
   --color-verdict-500: #3ecf8e;
 
-  --font-display: var(--font-saira), "Arial Narrow", system-ui, sans-serif;
+  --font-display: var(--font-saira), system-ui, sans-serif;
   --font-body: var(--font-inter), system-ui, sans-serif;
 
   --ease-out-quart: cubic-bezier(0.25, 1, 0.5, 1);
@@ -170,4 +170,75 @@
   .route-dash {
     animation: none;
   }
+}
+
+/* ── Hero road centre-line ── */
+@keyframes road-move {
+  to {
+    background-position: 96px 0;
+  }
+}
+
+.road-lines {
+  background-image: repeating-linear-gradient(
+    90deg,
+    var(--color-signal-500) 0 48px,
+    transparent 48px 96px
+  );
+  animation: road-move 1.6s linear infinite;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .road-lines {
+    animation: none;
+  }
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+}
+
+:focus-visible {
+  outline: 2px solid var(--color-signal-500);
+  outline-offset: 2px;
+}
+
+/* ── Footer top rail: red light sweeping along the border ── */
+@keyframes rail-sweep {
+  from {
+    background-position: -200% 0;
+  }
+  to {
+    background-position: 200% 0;
+  }
+}
+
+.footer-rail {
+  background: linear-gradient(
+    90deg,
+    var(--color-signal-600) 0%,
+    var(--color-signal-300) 50%,
+    var(--color-signal-600) 100%
+  );
+  background-size: 200% 100%;
+  animation: rail-sweep 6s linear infinite;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .footer-rail {
+    animation: none;
+  }
+}
+
+/* Space Grotesk has no italic cut — render display headings upright rather
+   than with a synthesized slant. */
+.font-display.italic,
+.font-display .italic {
+  font-style: normal;
 }

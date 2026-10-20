@@ -1,106 +1,85 @@
 import Image from "next/image";
 
-/**
- * Site footer — light chrome, dark-red rules, dark logo on fog/white.
- */
+import BackToTop from "./back-to-top";
 
-const NAV = [
-  { label: "Get a quote", href: "/#contact" },
-  { label: "Contact us", href: "/#contact" },
+/* Dark multi-column footer with an animated red top rail. */
+
+const LINKS = [
+  { label: "Why Gepard", href: "/#why" },
+  { label: "Coverage", href: "/#coverage" },
+  { label: "How it works", href: "/#how-it-works" },
+  { label: "Fleet", href: "/#fleet" },
+  { label: "FAQ", href: "/#faq" },
   { label: "Drive for us", href: "/drive-for-us" },
 ];
+
+const SERVICES = ["Dry van (53′)", "Reefer (53′)", "Nationwide coverage", "24/7 dispatch"];
 
 const LEGAL = [
   { label: "Privacy Policy", href: "/privacy" },
   { label: "Terms and Conditions", href: "/terms" },
 ];
 
+const HEAD = "font-display text-sm font-bold uppercase tracking-wide text-fog-400";
+const LINK = "text-sm text-fog-200 transition-colors duration-150 hover:text-signal-300";
+
 export default function SiteFooter() {
   return (
-    <footer className="border-t border-graphite-900/10 bg-white px-6 pb-10 pt-16 text-graphite-700 md:px-16 lg:px-24">
+    <footer className="relative bg-graphite-950 px-6 pb-8 pt-20 text-fog-300 md:px-16 lg:px-24">
+      <div className="footer-rail absolute inset-x-0 top-0 h-1" aria-hidden />
       <div className="mx-auto max-w-7xl">
-        <div className="h-1 w-16 bg-signal-500" aria-hidden />
-
-        <div className="mt-8 grid gap-12 md:grid-cols-[auto_1fr_auto_auto] md:gap-16">
+        <div className="grid gap-12 sm:grid-cols-2 lg:grid-cols-[1.4fr_1fr_1fr_1.3fr] lg:gap-14">
           <div>
-            <Image
-              src="/logo_gepard.webp"
-              alt="Gepard Trans Logistics"
-              width={344}
-              height={96}
-              className="h-12 w-auto"
-            />
-            <p className="mt-4 max-w-[24ch] text-xs leading-relaxed text-graphite-500">
-              Scalable capacity for every load — dry van, reefer, flatbed.
+            <Image src="/logo_gepard_white.png" alt="Gepard Trans Logistics" width={344} height={96} className="h-12 w-auto" />
+            <p className="mt-5 max-w-xs text-sm leading-relaxed text-fog-400">
+              Scalable capacity for every load — dry van and reefer, backed by a modern fleet and dispatch that answers around the clock.
             </p>
           </div>
 
           <nav aria-label="Footer">
-            <ul className="space-y-3">
-              {NAV.map((item) => (
-                <li key={item.label}>
-                  <a
-                    href={item.href}
-                    className="font-display text-sm font-bold uppercase tracking-wide text-graphite-800 transition-colors duration-150 hover:text-signal-500"
-                  >
-                    {item.label}
-                  </a>
+            <p className={HEAD}>Quick links</p>
+            <ul className="mt-4 space-y-3">
+              {LINKS.map((l) => (
+                <li key={l.label}>
+                  <a href={l.href} className={LINK}>{l.label}</a>
                 </li>
               ))}
             </ul>
           </nav>
 
           <div>
-            <p className="font-display text-sm font-bold uppercase tracking-wide text-graphite-500">
-              Address
-            </p>
-            <p className="mt-3 text-sm leading-relaxed text-graphite-700">
-              31 W Downer Pl Unit 306
-              <br />
-              Aurora, IL 60506
-            </p>
+            <p className={HEAD}>Services</p>
+            <ul className="mt-4 space-y-3 text-sm text-fog-200">
+              {SERVICES.map((s) => (
+                <li key={s}>{s}</li>
+              ))}
+            </ul>
           </div>
 
           <div>
-            <p className="font-display text-sm font-bold uppercase tracking-wide text-graphite-500">
-              Call us
-            </p>
-            <a
-              href="tel:+12622563782"
-              className="mt-3 block text-sm font-semibold text-graphite-950 transition-colors duration-150 hover:text-signal-500"
-            >
-              +1 (262) 256-3782
-            </a>
-            <p className="mt-6 font-display text-sm font-bold uppercase tracking-wide text-graphite-500">
-              Email
-            </p>
-            <a
-              href="mailto:gepardtranslogistics@gmail.com"
-              className="mt-3 block break-all text-sm font-semibold text-graphite-950 transition-colors duration-150 hover:text-signal-500"
-            >
-              gepardtranslogistics@gmail.com
-            </a>
+            <p className={HEAD}>Contact</p>
+            <address className="mt-4 space-y-3 text-sm not-italic text-fog-200">
+              <a href="tel:+12622563782" className={`block font-semibold text-white ${LINK}`}>+1 (262) 256-3782</a>
+              <a href="mailto:gepardtranslogistics@gmail.com" className={`block break-all ${LINK}`}>gepardtranslogistics@gmail.com</a>
+              <p>31 W Downer Pl Unit 306<br />Aurora, IL 60506</p>
+              <p className="text-fog-400">Dispatch: 24/7</p>
+            </address>
           </div>
         </div>
 
-        <div className="mt-14 flex flex-col items-center gap-3 border-t border-graphite-900/10 pt-8 text-center md:flex-row md:justify-between">
-          <p className="text-xs text-graphite-500">
-            © {new Date().getFullYear()} Gepard Trans Logistics INC · All rights
-            reserved
+        <div className="mt-14 flex flex-col items-center gap-4 border-t border-fog-50/10 pt-8 text-center md:flex-row md:justify-between md:text-left">
+          <p className="text-xs text-fog-400">
+            © {new Date().getFullYear()} Gepard Trans Logistics INC · All rights reserved
           </p>
-          <p className="text-xs text-graphite-500">
+          <p className="text-xs text-fog-400">
             {LEGAL.map((item, i) => (
               <span key={item.label}>
-                {i > 0 && <span className="mx-2 text-fog-300">|</span>}
-                <a
-                  href={item.href}
-                  className="transition-colors duration-150 hover:text-signal-500"
-                >
-                  {item.label}
-                </a>
+                {i > 0 && <span className="mx-2 text-graphite-600">|</span>}
+                <a href={item.href} className="transition-colors duration-150 hover:text-signal-300">{item.label}</a>
               </span>
             ))}
           </p>
+          <BackToTop />
         </div>
       </div>
     </footer>

@@ -16,22 +16,12 @@ export default function DriveForUsPage() {
     <>
       <SiteHeader />
       <main className="flex flex-1 flex-col">
-        {/* Hero — full-bleed truck photo behind the application pitch. The band
-            is deliberately tall: object-cover fills the box by scaling the photo
-            until its WIDTH (not its height) covers, then crops the rest. A short
-            band therefore cuts a tall photo down to a narrow centre strip.
-            truck5.jpg is 2:3 portrait, the reverse of a landscape shot, so the
-            visible fraction is small and very band-sensitive — 26% of the frame
-            height at 1920x760, 32% at 1440x700, 49% at 768x560. Measured on the
-            real crop, the cab's roof keeps >=3.7% headroom in all three, so the
-            truck is never decapitated; a taller band is simply more generous.
-            From `md` up only: a phone's band is a tall, narrow window, so extra
-            height there would crop the frame's WIDTH instead — more zoom, not
-            less — so mobile keeps its content-driven height (and, at ~0.74 box
-            aspect against a 0.67 photo, mobile shows nearly the whole frame). */}
+        {/* Hero — full-bleed fleet photo behind the application pitch. Portrait
+            yard shots fill the tall band cleanly on mobile; desktop crops to the
+            cab. From `md` up the band is tall so the tractor stays readable. */}
         <section className="relative isolate overflow-hidden bg-graphite-950 px-6 pb-44 pt-24 text-center md:min-h-[max(560px,80svh)] md:px-16 md:pb-56 md:pt-32 lg:px-24">
           <Image
-            src="/truck5.jpg"
+            src="/fleet/peterbilt-1833.jpg"
             alt=""
             fill
             preload

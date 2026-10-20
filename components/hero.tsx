@@ -1,19 +1,14 @@
 import Image from "next/image";
 
+import HeroStats from "./hero-stats";
 import HeroVideo from "./hero-video";
 
 /* Full-width hero under the solid white nav. Poster is LCP; HeroVideo streams
    a 720p faststart MP4 so first frames arrive without waiting on the full file. */
 
-const EQUIPMENT = [
-  { label: "53′ Dry Van", detail: "up to 45,000 lb payload" },
-  { label: "53′ Reefer", detail: "−20°F to 75°F · 24/7 telemetry" },
-  { label: "48′–53′ Flatbed", detail: "straps, chains & tarps" },
-];
-
 export default function Hero() {
   return (
-    <section className="relative flex min-h-[max(560px,calc(100svh-68px))] items-center overflow-hidden bg-graphite-950">
+    <section className="relative flex min-h-[max(640px,100svh)] items-center pt-16 overflow-hidden bg-graphite-950">
       <Image
         src="/dispatch.webp"
         alt=""
@@ -35,6 +30,9 @@ export default function Hero() {
         aria-hidden
       />
 
+      {/* Moving road centre-line along the hero floor */}
+      <div className="road-lines pointer-events-none absolute inset-x-0 bottom-0 z-[3] h-1.5" aria-hidden />
+
       <div className="relative z-10 mx-auto w-full max-w-4xl px-6 py-20 text-center md:px-10 md:py-24">
         <p className="fade-up">
           <span className="inline-block bg-signal-500 px-3 py-1.5 text-xs font-semibold uppercase tracking-[0.3em] text-white">
@@ -51,7 +49,7 @@ export default function Hero() {
           className="fade-up mx-auto mt-6 max-w-xl text-sm leading-relaxed text-fog-200 md:text-base"
           style={{ animationDelay: "140ms" }}
         >
-          Dry van, reefer, and flatbed capacity across 96% of US ZIP codes —
+          Dry van or reefer capacity across 96% of US ZIP codes —
           backed by a modern fleet and a dispatch team that answers around the
           clock.
         </p>
@@ -60,7 +58,7 @@ export default function Hero() {
           style={{ animationDelay: "200ms" }}
         >
           <a href="#contact" className="btn-primary">
-            Ship with us
+            Get a quote
           </a>
           <a
             href="/drive-for-us"
@@ -70,18 +68,7 @@ export default function Hero() {
           </a>
         </div>
 
-        <ul className="mx-auto mt-12 hidden max-w-3xl gap-8 border-t border-fog-50/20 pt-6 sm:grid sm:grid-cols-3">
-          {EQUIPMENT.map((item) => (
-            <li key={item.label} className="border-l-2 border-signal-500 pl-4 text-left">
-              <p className="font-display text-lg font-bold uppercase tracking-tight text-fog-50 md:text-xl">
-                {item.label}
-              </p>
-              <p className="mt-1 text-xs uppercase tracking-wider text-fog-300">
-                {item.detail}
-              </p>
-            </li>
-          ))}
-        </ul>
+        <HeroStats />
       </div>
     </section>
   );
